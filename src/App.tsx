@@ -1,16 +1,25 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 
-interface SampleProps {
-  text: string;
+interface State {
+  counts: number;
 }
 
-export default class App extends Component<SampleProps> {
+export default class App extends Component<any, State> {
+  state = {
+    counts: 0
+  };
+
+  increment = () => {
+    this.setState(s => ({ counts: s.counts + 1 }));
+  };
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
+        <Text style={styles.instructions} testID="countLabel">{this.state.counts}</Text>
+        <Button testID="incrementButton" onPress={this.increment} title="Increment" />
       </View>
     );
   }

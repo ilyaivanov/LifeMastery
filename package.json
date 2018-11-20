@@ -35,10 +35,13 @@
       "js"
     ],
     "transform": {
-      "^.+\\.(js)$": "babel-jest",
+      "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js",
       "\\.(ts|tsx)$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "transformIgnorePatterns": [
+      "node_modules/(?!(react-native)/)"
+    ],
     "testPathIgnorePatterns": [
       "\\.snap$",
       "<rootDir>/node_modules/"
