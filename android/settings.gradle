@@ -1,0 +1,3 @@
+rootProject.name = 'LifeMastery'
+
+include ':app'
