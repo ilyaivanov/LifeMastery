@@ -11,10 +11,15 @@
     "react-native": "0.56.1"
   },
   "devDependencies": {
+    "@types/react": "^16.7.6",
+    "@types/react-native": "^0.57.11",
     "babel-jest": "23.6.0",
     "babel-preset-react-native": "^5",
     "jest": "23.6.0",
-    "react-test-renderer": "16.4.1"
+    "prettier": "^1.15.2",
+    "react-native-typescript-transformer": "^1.2.10",
+    "react-test-renderer": "16.4.1",
+    "typescript": "^3.1.6"
   },
   "jest": {
     "preset": "react-native"
