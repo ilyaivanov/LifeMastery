@@ -6,7 +6,8 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "resetDeps": "rm -rf node_modules && yarn",
-    "android": "cd ./android && ./gradlew app:assembleDebug && ./gradlew installDebug"
+    "android": "cd ./android && ./gradlew app:assembleDebug && ./gradlew installDebug",
+    "test:coverage": "jest --coverage --coverageReporters=text-lcov | coveralls"
   },
   "dependencies": {
     "react": "16.4.1",
@@ -18,6 +19,7 @@
     "@types/react": "^16.7.6",
     "@types/react-native": "^0.57.11",
     "@types/react-test-renderer": "^16.0.3",
+    "coveralls": "^3.0.2",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "23.6.0",
     "babel-preset-react-native": "^5",
@@ -46,6 +48,11 @@
     ],
     "setupFiles": [
       "<rootDir>/jest/setup.ts"
+    ],
+    "coverageReporters": [
+      "json-summary",
+      "text",
+      "lcov"
     ],
     "testPathIgnorePatterns": [
       "\\.snap$",
