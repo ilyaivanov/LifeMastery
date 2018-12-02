@@ -24,7 +24,6 @@
     "jest": "23.6.0",
     "prettier": "^1.15.2",
     "react-addons-test-utils": "^15.6.2",
-    "react-native-typescript-transformer": "^1.2.10",
     "react-test-renderer": "16.4.1",
     "ts-jest": "^23.10.4",
     "typescript": "^3.1.6"
@@ -49,5 +48,16 @@
       "<rootDir>/node_modules/"
     ],
     "cacheDirectory": ".jest/cache"
+  },
+  "detox": {
+    "configurations": {
+      "ios.sim.debug": {
+        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/LifeMastery.app",
+        "build": "xcodebuild -project ios/LifeMastery.xcodeproj -scheme LifeMastery -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
+        "type": "ios.simulator",
+        "name": "iPhone 7"
+      }
+    },
+    "test-runner": "jest"
   }
 }

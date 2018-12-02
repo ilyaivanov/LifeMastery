@@ -10,8 +10,8 @@ export default class App extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>First Screen</Text>
-        <Button onPress={() => showSecondScreen(this.props.componentId)} title="Go next!" />
+        <Text testID="PageTitle" style={styles.welcome}>First Screen</Text>
+        <Button testID="GoNext" onPress={() => showSecondScreen(this.props.componentId)} title="Go next!" />
       </View>
     );
   }
@@ -21,8 +21,8 @@ export class SecondScreen extends Component<Props> {
   render() {
     return (
       <View style={[styles.container, { backgroundColor: 'grey' }]}>
-        <Text style={styles.welcome}>Second Screen</Text>
-        <Button onPress={() => goBack(this.props.componentId)} title="Go back!" />
+        <Text testID="PageTitle" style={styles.welcome}>Second Screen</Text>
+        <Button testID="GoBack" onPress={() => goBack(this.props.componentId)} title="Go back!" />
       </View>
     );
   }
