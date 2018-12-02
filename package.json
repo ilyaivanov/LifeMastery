@@ -1,0 +1,68 @@
+{
+  "name": "LifeMastery",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest",
+    "resetDeps": "rm -rf node_modules && yarn",
+    "android": "cd ./android && ./gradlew app:assembleDebug && ./gradlew installDebug"
+  },
+  "dependencies": {
+    "react": "16.4.1",
+    "react-native": "0.56.1",
+    "react-native-navigation": "^2.1.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.3.9",
+    "@types/react": "^16.7.6",
+    "@types/react-native": "^0.57.11",
+    "@types/react-test-renderer": "^16.0.3",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "23.6.0",
+    "babel-preset-react-native": "^5",
+    "jest": "23.6.0",
+    "prettier": "^1.15.2",
+    "react-addons-test-utils": "^15.6.2",
+    "react-native-typescript-transformer": "^1.2.10",
+    "react-test-renderer": "16.4.1",
+    "ts-jest": "^23.10.4",
+    "typescript": "^3.1.6"
+  },
+  "jest": {
+    "preset": "react-native",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js",
+      "\\.(ts|tsx)$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "transformIgnorePatterns": [
+      "node_modules/(?!(react-native|react-native-navigation)/)"
+    ],
+    "setupFiles": [
+      "<rootDir>/jest/setup.ts"
+    ],
+    "testPathIgnorePatterns": [
+      "\\.snap$",
+      "<rootDir>/node_modules/",
+      "e2e"
+    ],
+    "cacheDirectory": ".jest/cache"
+  },
+  "detox": {
+    "configurations": {
+      "ios.sim.debug": {
+        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/LifeMastery.app",
+        "build": "xcodebuild -project ios/LifeMastery.xcodeproj -scheme LifeMastery -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
+        "type": "ios.simulator",
+        "name": "iPhone 7"
+      }
+    },
+    "test-runner": "jest"
+  }
+}
