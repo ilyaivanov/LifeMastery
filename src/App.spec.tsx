@@ -1,27 +1,30 @@
 import "react-native";
 import React from "react";
 import App from "./App";
-import renderer, { Rendered } from "../jest/renderer";
+import renderer, {Rendered} from "../jest/renderer";
+import {showSecondScreen} from "./navigation";
 
 describe("When opening App", () => {
   let app: Rendered;
   beforeEach(() => {
-    app = renderer(<App />);
+    app = renderer(<App componentId="compId"/>);
   });
 
   it("should renders correctly", () => {
     expect(app.toJSON()).toMatchSnapshot();
   });
 
-  it("by default increment should be 0", () => {
-    expect(app.text("countLabel")).toEqual(0);
+  it("should have a title", () => {
+    expect(app.text("PageTitle")).toEqual('First Screen');
   });
 
-  describe("when touching a button", () => {
-    it("increment should be 1", () => {
-      const tree = renderer(<App />);
-      tree.touch("incrementButton");
-      expect(tree.text("countLabel")).toEqual(1);
+  describe("when going next", () => {
+    beforeEach(() => {
+      app.touch("GoNext");
+    });
+
+    it("showSecondScreen should be called", () => {
+      expect(showSecondScreen).toHaveBeenCalledWith('compId')
     });
   });
 });

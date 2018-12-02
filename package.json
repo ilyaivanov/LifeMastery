@@ -42,11 +42,15 @@
     },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "transformIgnorePatterns": [
-      "node_modules/(?!(react-native)/)"
+      "node_modules/(?!(react-native|react-native-navigation)/)"
+    ],
+    "setupFiles": [
+      "<rootDir>/jest/setup.ts"
     ],
     "testPathIgnorePatterns": [
       "\\.snap$",
-      "<rootDir>/node_modules/"
+      "<rootDir>/node_modules/",
+      "e2e"
     ],
     "cacheDirectory": ".jest/cache"
   },

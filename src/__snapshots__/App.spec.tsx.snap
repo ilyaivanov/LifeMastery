@@ -19,20 +19,9 @@ exports[`When opening App should renders correctly 1`] = `
         "textAlign": "center",
       }
     }
+    testID="PageTitle"
   >
-    Welcome to React Native!
-  </Text>
-  <Text
-    style={
-      Object {
-        "color": "#333333",
-        "marginBottom": 5,
-        "textAlign": "center",
-      }
-    }
-    testID="countLabel"
-  >
-    0
+    First Screen
   </Text>
   <View
     accessibilityComponentType="button"
@@ -54,7 +43,7 @@ exports[`When opening App should renders correctly 1`] = `
         "opacity": 1,
       }
     }
-    testID="incrementButton"
+    testID="GoNext"
   >
     <View
       style={
@@ -75,7 +64,7 @@ exports[`When opening App should renders correctly 1`] = `
           ]
         }
       >
-        Increment
+        Go next!
       </Text>
     </View>
   </View>
