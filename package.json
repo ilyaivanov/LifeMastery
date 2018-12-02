@@ -5,11 +5,13 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "resetDeps": "rm -rf node_modules && yarn"
+    "resetDeps": "rm -rf node_modules && yarn",
+    "android": "cd ./android && ./gradlew app:assembleDebug && ./gradlew installDebug"
   },
   "dependencies": {
     "react": "16.4.1",
-    "react-native": "0.56.1"
+    "react-native": "0.56.1",
+    "react-native-navigation": "^2.1.3"
   },
   "devDependencies": {
     "@types/jest": "^23.3.9",

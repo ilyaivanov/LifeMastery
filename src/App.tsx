@@ -1,25 +1,28 @@
 import React, { Component } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
+import { showSecondScreen, goBack } from "./navigation";
 
-interface State {
-  counts: number;
+interface Props {
+  componentId: string
 }
 
-export default class App extends Component<any, State> {
-  state = {
-    counts: 0
-  };
-
-  increment = () => {
-    this.setState(s => ({ counts: s.counts + 1 }));
-  };
-
+export default class App extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions} testID="countLabel">{this.state.counts}</Text>
-        <Button testID="incrementButton" onPress={this.increment} title="Increment" />
+        <Text style={styles.welcome}>First Screen</Text>
+        <Button onPress={() => showSecondScreen(this.props.componentId)} title="Go next!" />
+      </View>
+    );
+  }
+}
+
+export class SecondScreen extends Component<Props> {
+  render() {
+    return (
+      <View style={[styles.container, { backgroundColor: 'grey' }]}>
+        <Text style={styles.welcome}>Second Screen</Text>
+        <Button onPress={() => goBack(this.props.componentId)} title="Go back!" />
       </View>
     );
   }
@@ -37,9 +40,4 @@ const styles = StyleSheet.create({
     textAlign: "center",
     margin: 10
   },
-  instructions: {
-    textAlign: "center",
-    color: "#333333",
-    marginBottom: 5
-  }
 });

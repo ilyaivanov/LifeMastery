@@ -1,5 +1,29 @@
-import { AppRegistry } from "react-native";
-import App from "./src/App";
-import { name as appName } from "./app.json";
+import { Navigation } from "react-native-navigation";
+import { registerScreens, screens } from './src/navigation';
 
-AppRegistry.registerComponent(appName, () => App);
+
+registerScreens();
+
+Navigation.events().registerAppLaunchedListener(() => {
+    Navigation.setRoot({
+        root: {
+            stack: {
+                id:'MyStack',
+                children: [
+                    {
+                        component: {
+                            name: screens.firstScreen,
+                            options: {
+                                topBar: {
+                                  title: {
+                                    text: 'Life Mastery'
+                                  }
+                                }
+                              }
+                        }
+                    },
+                ],
+            }
+        }
+    });
+});
