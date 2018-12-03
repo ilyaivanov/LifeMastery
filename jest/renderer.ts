@@ -6,6 +6,16 @@ const renderer = (element: any) => {
     text: (id: string) => findTextById(rendered.root, verifyNotNull(id)),
     touch: (id: string) => touchById(rendered.root, verifyNotNull(id)),
 
+    setText: (id: string, text: string) => {
+      const item = findById(rendered.root, id);
+      item.props.onChangeText(text);
+    },
+
+    setDateiOS: (id: string, date: Date) => {
+      const item = findById(rendered.root, id);
+      item.props.onDateChange(date);
+    },
+
     setState: (state: any) => rendered.root.instance.setState(state),
 
     toJSON: () => rendered.toJSON()
@@ -22,6 +32,9 @@ const findTextById = (instance: any, id: string) =>
 
 const touchById = (instance: any, id: string) =>
   instance.findByProps({ testID: id }).props.onPress();
+
+const findById = (instance:any, id:string) =>
+  instance.findByProps({ testID: id });
 
 export default renderer;
 export type Rendered = ReturnType<typeof renderer>;
