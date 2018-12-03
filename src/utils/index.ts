@@ -2,12 +2,15 @@ import {testIds} from './ids';
 import generateId from './generateId';
 import {goBack, showCreateTaskScreen} from '../navigation';
 import {DailyItem} from "../types";
-import moment from "moment";
+import moment, {Moment} from "moment";
 
-const fromTime = (time: string) => new Date(`Sun Dec 02 2018 ${time}:00 GMT+0200 (EET)`);
+const fromTime = (time: string) => {
+  const [hour, minut] = time.split(':');
+  return moment().hour(+hour).minute(+minut);
+};
 
-const createTask = (title: string, date: Date): DailyItem => ({
-  id: generateId(), title, time: date, dailyTime: moment(date).format('hh:mm'), isDone: false, isFailed: false
+const createTask = (title: string, date: Moment): DailyItem => ({
+  id: generateId(), title, time: date, dailyTime: moment(date).format('HH:mm'), isDone: false, isFailed: false
 });
 
 export {

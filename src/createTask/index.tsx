@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Button, DatePickerIOS, Text, TextInput, View} from "react-native";
 import {DailyItem} from "../types";
 import {createTask, testIds} from "../utils";
+import moment from "moment";
 
 interface Props {
   onDone: (item: DailyItem) => void;
@@ -15,7 +16,7 @@ export default class App extends Component<Props> {
   };
 
   onDone = () => {
-    this.props.onDone(createTask(this.state.text, this.state.chosenDate));
+    this.props.onDone(createTask(this.state.text, moment(this.state.chosenDate)));
   };
 
   setDate = (newDate: Date) => {

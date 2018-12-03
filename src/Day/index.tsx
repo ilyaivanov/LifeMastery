@@ -1,8 +1,9 @@
 import React, {Component} from "react";
 import {Button, FlatList, StyleSheet, View} from "react-native";
 import {DailyItem} from "../types";
-import {generateId, showCreateTaskScreen, createTask, fromTime} from "../utils";
+import {showCreateTaskScreen, createTask, fromTime} from "../utils";
 import DailyItemOverview from "./DailyItemOverview";
+import _ from 'lodash';
 
 interface Props {
   componentId: string
@@ -25,11 +26,13 @@ export default class Index extends Component<Props, State> {
   };
 
   createNewItem = () => {
+    //TODO: state management is coming. Unit testing will deeply depend upon the way we manage state
     showCreateTaskScreen()
       .then((task: DailyItem) => {
         const items = this.state.tasks as DailyItem[];
         items.push(task);
-        this.setState({tasks: items})
+        const ordered = _.orderBy(items, i => i.time);
+        this.setState({tasks: ordered})
       })
   };
 

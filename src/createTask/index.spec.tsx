@@ -4,7 +4,7 @@ import CreateTask from "./index";
 import renderer, {Rendered} from "../../jest/renderer";
 import {DailyItem} from "../types";
 import {createTask, testIds} from "../utils";
-import moment from "moment";
+import moment, {Moment} from "moment";
 
 // Return a fixed timestamp when moment().format() is called
 jest.mock('moment', () => () => ({format: () => '12:30'}));
@@ -20,12 +20,12 @@ describe('Having a create task screen', () => {
   });
 
   describe('when setting inputs data and clicking done', () => {
-    let date: Date;
+    let date: Moment;
     beforeEach(() => {
-      date = new Date();
+      date = moment();
 
       app.setText(testIds.textInput, 'Sample Task Name');
-      app.setDateiOS('CreateTask.DateInputiOS', date);
+      app.setDateiOS('CreateTask.DateInputiOS', date.toDate());
       app.touch('OnDone');
     });
     afterEach(() => {
@@ -49,4 +49,5 @@ describe('Having a create task screen', () => {
     });
 
   });
+
 });

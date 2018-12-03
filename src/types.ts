@@ -1,5 +1,7 @@
+import {Moment} from "moment";
+
 export interface DailyItem {
-  time: Date;
+  time: Moment;
   isDone: Boolean;
   isFailed: Boolean;
   dailyTime: string;
