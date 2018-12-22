@@ -35,6 +35,7 @@ export default class App extends Component<Props> {
         />
         <Text style={{paddingTop: 20}}>Date:</Text>
         <DatePickerIOS
+          minuteInterval={5}
           testID="CreateTask.DateInputiOS"
           mode="time"
           date={this.state.chosenDate}
