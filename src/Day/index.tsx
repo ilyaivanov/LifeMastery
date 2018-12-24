@@ -1,45 +1,43 @@
-import React, {Component} from "react";
-import {Button, FlatList, StyleSheet, Text, View} from "react-native";
-import {DailyItem} from "../types";
-import {showCreateTaskScreen} from "../utils";
+import React, { Component } from "react";
+import { Button, FlatList, StyleSheet, Text, View } from "react-native";
+import { DailyItem } from "../types";
+import { showCreateTaskScreen } from "../utils";
 import DailyItemOverview from "./DailyItemOverview";
 import DaySlider from "./DaySlider";
-import {ApplicationState, Day} from "../state/types";
-import {connect} from "react-redux";
-import {getDays, selectedTasks} from "../state/selectors";
-import {removeItem, selectDay} from "../state/actions";
+import { ApplicationState, Day } from "../state/types";
+import { connect } from "react-redux";
+import { getDays, selectedTasks } from "../state/selectors";
+import { removeItem, selectDay } from "../state/actions";
 
 interface Props {
   componentId: string;
-  label: string;
+  days: Day[];
   tasks: DailyItem[];
+  removeItem: Function;
+  selectDay: Function;
 }
 
 class DayOverview extends Component<Props> {
-  createNewItem = () =>
-    showCreateTaskScreen()
+  createNewItem = () => showCreateTaskScreen();
 
-  onRemove = (item: DailyItem) =>
-    this.props.removeItem(item.id);
+  onRemove = (item: DailyItem) => this.props.removeItem(item.id);
 
-  onDayChange = (day: Day) =>
-    this.props.selectDay(day.day);
+  onDayChange = (day: Day) => this.props.selectDay(day.day);
 
   render() {
     return (
       <View testID="MainPage" style={styles.container}>
-        <DaySlider days={this.props.days} onDayChange={this.onDayChange}/>
-        <Text>{this.props.label}</Text>
+        <DaySlider days={this.props.days} onDayChange={this.onDayChange} />
         <FlatList
           keyExtractor={item => item.id}
-          renderItem={({item}) => (
-            <DailyItemOverview item={item} onRemove={this.onRemove}/>
+          renderItem={({ item }) => (
+            <DailyItemOverview item={item} onRemove={this.onRemove} />
           )}
           data={this.props.tasks}
-          ItemSeparatorComponent={() => <View style={styles.separator}/>}
+          ItemSeparatorComponent={() => <View style={styles.separator} />}
         />
         <View style={styles.onPress}>
-          <Button testID="AddTask" onPress={this.createNewItem} title="Add"/>
+          <Button testID="AddTask" onPress={this.createNewItem} title="Add" />
         </View>
       </View>
     );
@@ -47,9 +45,8 @@ class DayOverview extends Component<Props> {
 }
 
 const mapState = (state: ApplicationState) => ({
-  label: state.label,
   tasks: selectedTasks(state),
-  days: getDays(state),
+  days: getDays(state)
 });
 
 const mapActions = {
@@ -57,7 +54,10 @@ const mapActions = {
   removeItem
 };
 
-export default connect(mapState, mapActions)(DayOverview);
+export default connect(
+  mapState,
+  mapActions
+)(DayOverview);
 
 const styles = StyleSheet.create({
   container: {
@@ -72,11 +72,6 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: "center",
     flexDirection: "row"
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: "center",
-    margin: 10
   },
   separator: {
     height: StyleSheet.hairlineWidth,

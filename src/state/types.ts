@@ -10,7 +10,6 @@ export interface TasksPerDay {
 }
 
 export interface ApplicationState {
-  label: string;
   tasksPerDay: TasksPerDay;
   selectedDay:string;
 }

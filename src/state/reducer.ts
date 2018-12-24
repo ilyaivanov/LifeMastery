@@ -5,7 +5,6 @@ import {createTask} from "../utils";
 
 const initialState: ApplicationState = {
   tasksPerDay: tasksPerDay,
-  label: "foo",
   selectedDay: 'Tue'
 };
 

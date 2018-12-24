@@ -1,14 +1,14 @@
 import React, {Component} from "react";
 import {Button, DatePickerIOS, Text, TextInput, View} from "react-native";
-import {DailyItem} from "../types";
 import {testIds} from "../utils";
 import moment from "moment";
 import {connect} from "react-redux";
 import {addNewTask} from "../state/actions";
 
 interface Props {
-  onDone: (item: DailyItem) => void;
+  onDone: () => void;
   onCancel: () => void;
+  addNewTask: Function;
 }
 
 class CreateTaskModal extends Component<Props> {
