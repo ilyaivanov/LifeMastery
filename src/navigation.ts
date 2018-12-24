@@ -4,7 +4,7 @@ import CreateTask from "./createTask";
 import { DailyItem } from "./types";
 
 export const showCreateTaskScreen = (): Promise<DailyItem> => {
-  return new Promise<DailyItem>((resolve) => {
+  return new Promise<DailyItem>(resolve => {
     const modalId = "CreateItemModal";
     Navigation.showModal({
       component: {

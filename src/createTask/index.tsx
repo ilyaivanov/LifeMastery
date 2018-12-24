@@ -1,7 +1,7 @@
-import React, {Component} from "react";
-import {Button, DatePickerIOS, Text, TextInput, View} from "react-native";
-import {DailyItem} from "../types";
-import {createTask, testIds} from "../utils";
+import React, { Component } from "react";
+import { Button, DatePickerIOS, Text, TextInput, View } from "react-native";
+import { DailyItem } from "../types";
+import { createTask, testIds } from "../utils";
 import moment from "moment";
 
 interface Props {
@@ -16,24 +16,26 @@ export default class App extends Component<Props> {
   };
 
   onDone = () => {
-    this.props.onDone(createTask(this.state.text, moment(this.state.chosenDate)));
+    this.props.onDone(
+      createTask(this.state.text, moment(this.state.chosenDate))
+    );
   };
 
   setDate = (newDate: Date) => {
-    this.setState({chosenDate: newDate});
+    this.setState({ chosenDate: newDate });
   };
 
   render() {
     return (
-      <View style={{padding: 10, paddingTop: 50}}>
+      <View style={{ padding: 10, paddingTop: 50 }}>
         <Text>Title:</Text>
         <TextInput
           testID={testIds.textInput}
-          onChangeText={text => this.setState({text})}
+          onChangeText={text => this.setState({ text })}
           placeholder="Enter your task title"
           value={this.state.text}
         />
-        <Text style={{paddingTop: 20}}>Date:</Text>
+        <Text style={{ paddingTop: 20 }}>Date:</Text>
         <DatePickerIOS
           minuteInterval={5}
           testID="CreateTask.DateInputiOS"
@@ -46,7 +48,7 @@ export default class App extends Component<Props> {
           title="Cancel"
           testID="OnCancel"
         />
-        <Button onPress={this.onDone} title="Done" testID="OnDone"/>
+        <Button onPress={this.onDone} title="Done" testID="OnDone" />
       </View>
     );
   }
