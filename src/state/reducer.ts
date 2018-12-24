@@ -9,15 +9,16 @@ const initialState: ApplicationState = {
   selectedDay: 'Tue'
 };
 
-const dailyTaskReducer = (tasks: DailyItem[], action: any, day: string) => {
+const dailyTaskReducer = (tasks: DailyItem[], action: any,) => {
   if (action.type === 'REMOVE_TASK')
     return tasks.filter(t => t.id !== action.id);
 
-  if (action.type === 'ADD_TASK' && action.taskInfo.onDay === day)
-    //TODO: consider order here by date
+  if (action.type === 'ADD_TASK')
     return tasks.concat([createTask(action.taskInfo.title, action.taskInfo.date)]);
+  //TODO: consider order here by date
 
-  if (action.type === 'FAIL_TASK' && action.taskInfo.onDay === day)
+
+  if (action.type === 'FAIL_TASK')
     return tasks.map(t => ({...t, isFailed: t.id === action.taskInfo.id}));
 
   return tasks;
@@ -28,7 +29,7 @@ export default (state: ApplicationState = initialState, action: any) => {
     const tasks = Object
       .keys(state.tasksPerDay)
       .reduce((agr: TasksPerDay, day) => {
-        agr[day] = dailyTaskReducer(state.tasksPerDay[day], action, day);
+        agr[day] = state.selectedDay == day ? dailyTaskReducer(state.tasksPerDay[day], action) : state.tasksPerDay[day];
         return agr;
       }, {});
 

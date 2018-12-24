@@ -21,7 +21,7 @@ describe('When selecting Monday', () => {
   });
 
   it('should select tasks for that day', () => {
-    const tasksAtHand =selectedTasks(store.getState());
+    const tasksAtHand = selectedTasks(store.getState());
     expect(tasksAtHand[0].title).toEqual("Monday Task Description 1");
   });
 });
@@ -31,6 +31,7 @@ describe('Removing a second task for monday', () => {
 
   beforeEach(() => {
     store = createMyStore();
+    store.dispatch(selectDay('Mon'));
     const itemToRemove = store.getState().tasksPerDay['Mon'][0].id;
     store.dispatch(removeItem(itemToRemove))
   });
@@ -44,16 +45,18 @@ describe('Removing a second task for monday', () => {
   });
 });
 
-describe('Adding a new task for tuesday', () => {
+describe('Adding a new task for Monday', () => {
   let store: ReturnType<typeof createMyStore>;
 
   beforeEach(() => {
     store = createMyStore();
-    store.dispatch(addNewTask({title: 'Some Task', date: new Date(), onDay: 'Mon'}))
+    store.dispatch(selectDay('Mon'));
+    store.dispatch(addNewTask({title: 'Some Task', date: new Date()}));
   });
 
   it('should set the length of tasks on that day to two', () => {
-    expect(store.getState().tasksPerDay['Mon']).toHaveLength(4);
+    const tasksAtHand = selectedTasks(store.getState());
+    expect(tasksAtHand).toHaveLength(4);
   });
 
   it('should have a generated id', () => {

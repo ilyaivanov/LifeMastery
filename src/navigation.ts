@@ -12,9 +12,9 @@ export const showCreateTaskScreen = (): Promise<DailyItem> => {
         id: modalId,
         name: screens.createTask,
         passProps: {
-          onDone: (item: DailyItem) => {
+          onDone: () => {
             Navigation.dismissModal(modalId);
-            resolve(item);
+            resolve();
           },
           onCancel: () => {
             Navigation.dismissModal(modalId);

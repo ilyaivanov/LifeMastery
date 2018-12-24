@@ -3,7 +3,7 @@ export const removeItem = (id: string) => ({
   id
 });
 
-export const addNewTask = (taskInfo: {}) => ({
+export const addNewTask = (taskInfo: { title: string, date: Date }) => ({
   type: 'ADD_TASK',
   taskInfo
 });

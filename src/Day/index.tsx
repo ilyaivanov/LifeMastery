@@ -15,23 +15,15 @@ interface Props {
   tasks: DailyItem[];
 }
 
-class Index extends Component<Props> {
-
-  createNewItem = () => {
+class DayOverview extends Component<Props> {
+  createNewItem = () =>
     showCreateTaskScreen()
-  };
 
-  onRemove = (item: DailyItem) => {
+  onRemove = (item: DailyItem) =>
     this.props.removeItem(item.id);
-  };
 
-  clear = () => {
-    this.setState({tasks: []});
-  };
-
-  onDayChange = (day: Day) => {
+  onDayChange = (day: Day) =>
     this.props.selectDay(day.day);
-  };
 
   render() {
     return (
@@ -47,8 +39,7 @@ class Index extends Component<Props> {
           ItemSeparatorComponent={() => <View style={styles.separator}/>}
         />
         <View style={styles.onPress}>
-          <Button testID="Clear" onPress={this.clear} title="Clear"/>
-          <Button testID="GoNext" onPress={this.createNewItem} title="Add"/>
+          <Button onPress={this.createNewItem} title="Add"/>
         </View>
       </View>
     );
@@ -65,7 +56,8 @@ const mapActions = {
   selectDay,
   removeItem
 };
-export default connect(mapState, mapActions)(Index);
+
+export default connect(mapState, mapActions)(DayOverview);
 
 const styles = StyleSheet.create({
   container: {
