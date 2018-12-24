@@ -4,16 +4,10 @@ import { DailyItem } from "../types";
 
 interface Props {
   item: DailyItem;
-  onItemAction: (action: string, item: DailyItem) => void;
+  onRemove: (item: DailyItem) => void;
 }
 
 export default class DailyItemOverview extends React.PureComponent<Props> {
-  onRemove = () => this.props.onItemAction("remove", this.props.item);
-
-  onDone = () => this.props.onItemAction("done", this.props.item);
-
-  onFailed = () => this.props.onItemAction("fail", this.props.item);
-
   render() {
     const props = this.props;
     return (
@@ -36,17 +30,17 @@ export default class DailyItemOverview extends React.PureComponent<Props> {
         <Text style={s.time}>{props.item.dailyTime}</Text>
         <View style={s.buttonsContainer}>
           <View style={{ flexDirection: "row", flex: 1 }}>
-            <Button title="Remove" color="red" onPress={this.onRemove} />
+            <Button title="Remove" color="red" onPress={() => this.props.onRemove(this.props.item)} />
             <Button
               title={props.item.isFailed ? "Unfail" : "Fail"}
-              onPress={this.onFailed}
+              onPress={() => 42}
             />
             <Button title="Edit" onPress={() => 42} />
           </View>
           <View>
             <Button
               title={props.item.isDone ? "Undone" : "Done"}
-              onPress={this.onDone}
+              onPress={() => 42}
             />
           </View>
         </View>

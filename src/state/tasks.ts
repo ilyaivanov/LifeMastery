@@ -1,9 +1,5 @@
 import { createTask, fromTime } from "../utils";
-import { DailyItem } from "../types";
-
-interface TasksPerDay {
-  [index: string]: DailyItem[];
-}
+import {TasksPerDay} from "./types";
 
 export const tasksPerDay: TasksPerDay = {
   Mon: [

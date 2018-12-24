@@ -1,102 +1,71 @@
-import React, { Component } from "react";
-import { Button, FlatList, StyleSheet, Text, View } from "react-native";
-import { DailyItem } from "../types";
-import { showCreateTaskScreen } from "../utils";
+import React, {Component} from "react";
+import {Button, FlatList, StyleSheet, Text, View} from "react-native";
+import {DailyItem} from "../types";
+import {showCreateTaskScreen} from "../utils";
 import DailyItemOverview from "./DailyItemOverview";
-import _ from "lodash";
 import DaySlider from "./DaySlider";
-import { days, tasksPerDay } from "../state/tasks";
-import { Day } from "../state/types";
+import {ApplicationState, Day} from "../state/types";
+import {connect} from "react-redux";
+import {getDays, selectedTasks} from "../state/selectors";
+import {removeItem, selectDay} from "../state/actions";
 
 interface Props {
   componentId: string;
-}
-
-interface State {
+  label: string;
   tasks: DailyItem[];
 }
 
-export default class Index extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    const selectedDay = days.find(d => !!d.isSelected);
-    if (!selectedDay) throw new Error("No selected day");
-
-    this.state = {
-      tasks: tasksPerDay[selectedDay.day]
-    };
-  }
+class Index extends Component<Props> {
 
   createNewItem = () => {
-    //TODO: state management is coming. Unit testing will deeply depend upon the way we manage state
-    showCreateTaskScreen().then((task: DailyItem) => {
-      const items = this.state.tasks as DailyItem[];
-      items.push(task);
-      const ordered = _.orderBy(items, i => i.time);
-      this.setState({ tasks: ordered });
-    });
+    showCreateTaskScreen()
   };
 
-  onItemAction = (action: string, item: DailyItem) => {
-    if (action === "done") {
-      const newTasks = this.state.tasks.map(t =>
-        t.id === item.id
-          ? {
-              ...item,
-              isDone: !t.isDone,
-              isFailed: false
-            }
-          : t
-      );
-      this.setState({ tasks: newTasks });
-    } else if (action === "remove") {
-      const newTasks = this.state.tasks.filter(t => t.id !== item.id);
-      this.setState({ tasks: newTasks });
-    } else if (action === "fail") {
-      const newTasks = this.state.tasks.map(t =>
-        t.id === item.id
-          ? {
-              ...item,
-              isFailed: !t.isFailed,
-              isDone: false
-            }
-          : t
-      );
-      this.setState({ tasks: newTasks });
-    }
+  onRemove = (item: DailyItem) => {
+    this.props.removeItem(item.id);
   };
 
   clear = () => {
-    this.setState({ tasks: [] });
+    this.setState({tasks: []});
   };
 
   onDayChange = (day: Day) => {
-    this.setState({
-      tasks: tasksPerDay[day.day]
-    });
+    this.props.selectDay(day.day);
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <DaySlider onDayChange={this.onDayChange} />
-        <Text>When changin days default tasks are being loaded</Text>
+        <DaySlider days={this.props.days} onDayChange={this.onDayChange}/>
+        <Text>{this.props.label}</Text>
         <FlatList
           keyExtractor={item => item.id}
-          renderItem={({ item }) => (
-            <DailyItemOverview item={item} onItemAction={this.onItemAction} />
+          renderItem={({item}) => (
+            <DailyItemOverview item={item} onRemove={this.onRemove}/>
           )}
-          data={this.state.tasks}
-          ItemSeparatorComponent={() => <View style={styles.separator} />}
+          data={this.props.tasks}
+          ItemSeparatorComponent={() => <View style={styles.separator}/>}
         />
         <View style={styles.onPress}>
-          <Button testID="Clear" onPress={this.clear} title="Clear" />
-          <Button testID="GoNext" onPress={this.createNewItem} title="Add" />
+          <Button testID="Clear" onPress={this.clear} title="Clear"/>
+          <Button testID="GoNext" onPress={this.createNewItem} title="Add"/>
         </View>
       </View>
     );
   }
 }
+
+const mapState = (state: ApplicationState) => ({
+  label: state.label,
+  tasks: selectedTasks(state),
+  days: getDays(state),
+});
+
+const mapActions = {
+  selectDay,
+  removeItem
+};
+export default connect(mapState, mapActions)(Index);
 
 const styles = StyleSheet.create({
   container: {

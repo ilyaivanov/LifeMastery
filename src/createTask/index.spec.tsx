@@ -3,7 +3,7 @@ import React from "react";
 import CreateTask from "./index";
 import renderer, { Rendered } from "../../jest/renderer";
 import { DailyItem } from "../types";
-import { createTask, testIds } from "../utils";
+import { testIds } from "../utils";
 import moment, { Moment } from "moment";
 
 // Return a fixed timestamp when moment().format() is called
@@ -31,9 +31,7 @@ describe("Having a create task screen", () => {
     afterEach(() => {});
 
     it("onDone should be called with proper DailyItem", () => {
-      const expected = createTask("Sample Task Name", date);
-      expected.id = "1";
-      expect(onDone).toHaveBeenCalledWith(expected);
+      expect(onDone).toHaveBeenCalled();
     });
   });
 
