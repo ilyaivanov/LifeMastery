@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { Button, FlatList, StyleSheet, Text, View } from "react-native";
-import { DailyItem } from "../types";
-import { showCreateTaskScreen } from "../utils";
+import React, {Component} from "react";
+import {Button, FlatList, StyleSheet, Text, View} from "react-native";
+import {DailyItem} from "../types";
+import {showCreateTaskScreen} from "../utils";
 import DailyItemOverview from "./DailyItemOverview";
 import _ from "lodash";
 import DaySlider from "./DaySlider";
-import { days, tasksPerDay } from "../state/tasks";
-import { Day } from "../state/types";
+import {days, tasksPerDay} from "../state/tasks";
+import {Day} from "../state/types";
 
 interface Props {
   componentId: string;
@@ -33,7 +33,7 @@ export default class Index extends Component<Props, State> {
       const items = this.state.tasks as DailyItem[];
       items.push(task);
       const ordered = _.orderBy(items, i => i.time);
-      this.setState({ tasks: ordered });
+      this.setState({tasks: ordered});
     });
   };
 
@@ -42,32 +42,32 @@ export default class Index extends Component<Props, State> {
       const newTasks = this.state.tasks.map(t =>
         t.id === item.id
           ? {
-              ...item,
-              isDone: !t.isDone,
-              isFailed: false
-            }
+            ...item,
+            isDone: !t.isDone,
+            isFailed: false
+          }
           : t
       );
-      this.setState({ tasks: newTasks });
+      this.setState({tasks: newTasks});
     } else if (action === "remove") {
       const newTasks = this.state.tasks.filter(t => t.id !== item.id);
-      this.setState({ tasks: newTasks });
+      this.setState({tasks: newTasks});
     } else if (action === "fail") {
       const newTasks = this.state.tasks.map(t =>
         t.id === item.id
           ? {
-              ...item,
-              isFailed: !t.isFailed,
-              isDone: false
-            }
+            ...item,
+            isFailed: !t.isFailed,
+            isDone: false
+          }
           : t
       );
-      this.setState({ tasks: newTasks });
+      this.setState({tasks: newTasks});
     }
   };
 
   clear = () => {
-    this.setState({ tasks: [] });
+    this.setState({tasks: []});
   };
 
   onDayChange = (day: Day) => {
@@ -79,26 +79,19 @@ export default class Index extends Component<Props, State> {
   render() {
     return (
       <View style={styles.container}>
-        <DaySlider onDayChange={this.onDayChange} />
+        <DaySlider onDayChange={this.onDayChange}/>
         <Text>When changin days default tasks are being loaded</Text>
         <FlatList
           keyExtractor={item => item.id}
-          renderItem={({ item }) => (
-            <DailyItemOverview item={item} onItemAction={this.onItemAction} />
+          renderItem={({item}) => (
+            <DailyItemOverview item={item} onItemAction={this.onItemAction}/>
           )}
           data={this.state.tasks}
-          ItemSeparatorComponent={() => (
-            <View
-              style={{
-                height: StyleSheet.hairlineWidth,
-                backgroundColor: "gray"
-              }}
-            />
-          )}
+          ItemSeparatorComponent={() => <View style={styles.separator}/>}
         />
         <View style={styles.onPress}>
-          <Button testID="Clear" onPress={this.clear} title="Clear" />
-          <Button testID="GoNext" onPress={this.createNewItem} title="Add" />
+          <Button testID="Clear" onPress={this.clear} title="Clear"/>
+          <Button testID="GoNext" onPress={this.createNewItem} title="Add"/>
         </View>
       </View>
     );
@@ -123,5 +116,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
     margin: 10
+  },
+  separator: {
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: "gray",
+    marginLeft: 10,
+    marginRight: 10,
   }
 });
