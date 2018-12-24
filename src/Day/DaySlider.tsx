@@ -36,6 +36,7 @@ interface DayProps {
 
 const DayView = ({day, onPress}: DayProps) => (
   <TouchableOpacity
+    testID={day.day}
     onPress={() => onPress(day)}
     style={[styles.titleContainer]}
   >

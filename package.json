@@ -7,7 +7,9 @@
     "test": "jest",
     "resetDeps": "rm -rf node_modules && yarn",
     "android": "cd ./android && ./gradlew app:assembleDebug && ./gradlew installDebug",
-    "test:coverage": "jest --coverage --coverageReporters=text-lcov | coveralls"
+    "test:coverage": "jest --coverage --coverageReporters=text-lcov | coveralls",
+    "detox:build": "detox build",
+    "detox:text": "detox test"
   },
   "dependencies": {
     "moment": "^2.22.2",
@@ -30,6 +32,7 @@
     "babel-jest": "23.6.0",
     "babel-preset-react-native": "^5",
     "coveralls": "^3.0.2",
+    "detox": "^9.1.2",
     "jest": "23.6.0",
     "prettier": "^1.15.2",
     "react-addons-test-utils": "^15.6.2",

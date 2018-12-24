@@ -27,7 +27,7 @@ class DayOverview extends Component<Props> {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View testID="MainPage" style={styles.container}>
         <DaySlider days={this.props.days} onDayChange={this.onDayChange}/>
         <Text>{this.props.label}</Text>
         <FlatList
@@ -39,7 +39,7 @@ class DayOverview extends Component<Props> {
           ItemSeparatorComponent={() => <View style={styles.separator}/>}
         />
         <View style={styles.onPress}>
-          <Button onPress={this.createNewItem} title="Add"/>
+          <Button testID="AddTask" onPress={this.createNewItem} title="Add"/>
         </View>
       </View>
     );

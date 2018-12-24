@@ -1,31 +1,23 @@
 describe('Navigation tests', () => {
+
   beforeEach(async () => {
     await device.reloadReactNative();
+    await expect(element(by.id('MainPage'))).toBeVisible();
+    await element(by.id('AddTask')).tap();
+    await element(by.id('CreateTask.TextInput')).typeText('New Task Text');
+    await element(by.id('OnDone')).tap();
   });
 
-  it('should have a title a first screen', async () => {
-    await expect(element(by.id('PageTitle'))).toHaveText('First Screen');
+  it('should create a new task', async () => {
+    await expect(element(by.text('New Task Text'))).toBeVisible();
   });
 
-
-  describe('when going to the next page ', () => {
-    beforeEach(async () => {
-      await element(by.id('GoNext')).tap();
-    });
-
-    it('should navigate to a second page', async () => {
-      await expect(element(by.id('PageTitle'))).toHaveText('Second Screen');
-    });
-
-
-    describe('when going back', () => {
-      beforeEach(async () => {
-        await element(by.id('GoBack')).tap();
-      });
-
-      it('should navigate to a first screen', async () => {
-        await expect(element(by.id('PageTitle'))).toHaveText('First Screen');
-      });
-    });
+  it('should create a new task', async () => {
+    await element(by.id('Mon')).tap();
+    await expect(element(by.text('Monday Task Description 1'))).toBeVisible();
+    await element(by.id('Tue')).tap();
+    await expect(element(by.text('New Task Text'))).toBeVisible();
   });
+
 });
+

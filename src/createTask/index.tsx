@@ -31,7 +31,7 @@ class CreateTaskModal extends Component<Props> {
 
   render() {
     return (
-      <View style={{padding: 10, paddingTop: 50}}>
+      <View testID="TasksModal" style={{padding: 10, paddingTop: 50}}>
         <Text>Title:</Text>
         <TextInput
           testID={testIds.textInput}
