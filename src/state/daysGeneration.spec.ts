@@ -2,6 +2,7 @@ import moment from 'moment';
 import {getDays} from "./selectors";
 import {createMyStore} from "./store";
 import {Day} from "./types";
+import {moveWeekBackward, moveWeekForward} from "./actions";
 
 describe('For 23th of December', () => {
   let oldNow: () => number;
@@ -19,11 +20,11 @@ describe('For 23th of December', () => {
     expect(moment().format("DD MMM")).toEqual('23 Dec');
   });
 
-
   describe('when retrieving days ', () => {
     let days: Day[];
+    let store: any;
     beforeEach(() => {
-      const store = createMyStore();
+      store = createMyStore();
       days = getDays(store.getState());
     });
 
@@ -48,7 +49,36 @@ describe('For 23th of December', () => {
       const currentDay = days.find(d => d.dayOfMonth === '23') as any;
       expect(currentDay.isSelected).toEqual(true);
     });
+
+    it('should set displayedWeekStart to 22 Dec 2018', () => {
+      expect(store.getState().firstDayOfTheDisplayedWeek).toEqual('17 Dec 2018');
+    });
   });
 
 
+  describe('when moving one week forward', () => {
+    let days: Day[];
+    beforeEach(() => {
+      const store = createMyStore();
+      store.dispatch(moveWeekForward());
+      days = getDays(store.getState());
+    });
+
+    it('a range between 29 Dec and 4 Jan should be displayed', () => {
+      expect(days[0].key).toEqual('24 Dec 2018');
+    });
+  });
+
+  describe('when moving one week backward', () => {
+    let days: Day[];
+    beforeEach(() => {
+      const store = createMyStore();
+      store.dispatch(moveWeekBackward());
+      days = getDays(store.getState());
+    });
+
+    it('a range between 29 Dec and 4 Jan should be displayed', () => {
+      expect(days[0].key).toEqual('10 Dec 2018');
+    });
+  });
 });

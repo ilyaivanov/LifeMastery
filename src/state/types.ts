@@ -19,6 +19,7 @@ export interface TasksPerDay {
 export interface ApplicationState {
   tasksPerDay: TasksPerDay;
   selectedDay: string;
+  firstDayOfTheDisplayedWeek: string;
 }
 
 export interface DailyItem {

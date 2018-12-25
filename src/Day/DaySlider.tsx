@@ -1,10 +1,13 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Day } from "../state/types";
+import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Day} from "../state/types";
 
 interface Props {
   days: Day[];
   onDayChange: (day: Day) => void;
+  onMoveWeekRight: Function;
+  onMoveWeekLeft: Function;
+  title:string;
 }
 
 export default class DaySlider extends React.Component<Props> {
@@ -24,18 +27,18 @@ export default class DaySlider extends React.Component<Props> {
             fontSize: 16
           }}
         >
-          2018 December - Week 55
+          {this.props.title}
         </Text>
-        <View style={{ flexDirection: "row" }}>
-          <TouchableOpacity style={styles.buttonContainer} onPress={() => 42}>
+        <View style={{flexDirection: "row"}}>
+          <TouchableOpacity style={styles.buttonContainer} onPress={this.props.onMoveWeekLeft}>
             <Text style={styles.button}>{"<"}</Text>
           </TouchableOpacity>
-          <View style={{ flexDirection: "row", flex: 1 }}>
+          <View style={{flexDirection: "row", flex: 1}}>
             {this.props.days.map(d => (
-              <DayView key={d.key} day={d} onPress={this.selectDay} />
+              <DayView key={d.key} day={d} onPress={this.selectDay}/>
             ))}
           </View>
-          <TouchableOpacity style={styles.buttonContainer} onPress={() => 42}>
+          <TouchableOpacity style={styles.buttonContainer} onPress={this.props.onMoveWeekRight}>
             <Text style={styles.button}>{">"}</Text>
           </TouchableOpacity>
         </View>
@@ -49,7 +52,7 @@ interface DayProps {
   onPress: (day: Day) => void;
 }
 
-const DayView = ({ day, onPress }: DayProps) => (
+const DayView = ({day, onPress}: DayProps) => (
   <TouchableOpacity
     testID={day.day}
     onPress={() => onPress(day)}

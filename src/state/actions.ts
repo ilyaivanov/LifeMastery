@@ -27,3 +27,11 @@ export const initialize = () => ({
   type: 'INITIALIZE',
   now: moment()
 });
+
+export const moveWeekForward = () => ({
+  type: 'MOVE_WEEK_FORWARD'
+});
+
+export const moveWeekBackward = () => ({
+  type: 'MOVE_WEEK_BACKWARD'
+});

@@ -5,11 +5,13 @@ import DailyItemOverview from "./DailyItemOverview";
 import DaySlider from "./DaySlider";
 import {ApplicationState, DailyItem, Day} from "../state/types";
 import {connect} from "react-redux";
-import {getDays, selectedTasks} from "../state/selectors";
-import {removeItem, selectDay, toggleItem} from "../state/actions";
+import {getDays, selectedTasks, weekDate, weekNumber} from "../state/selectors";
+import {moveWeekBackward, moveWeekForward, removeItem, selectDay, toggleItem} from "../state/actions";
 
 interface Props {
   componentId: string;
+  weekDate: string;
+  weekNumber: number;
   days: Day[];
   tasks: DailyItem[];
   removeItem: Function;
@@ -29,7 +31,12 @@ class DayOverview extends Component<Props> {
   render() {
     return (
       <View testID="MainPage" style={styles.container}>
-        <DaySlider days={this.props.days} onDayChange={this.onDayChange}/>
+        <DaySlider
+          days={this.props.days} onDayChange={this.onDayChange}
+          onMoveWeekLeft={this.props.moveWeekBackward}
+          onMoveWeekRight={this.props.moveWeekForward}
+          title={`${this.props.weekDate} - Week ${this.props.weekNumber}`}
+        />
         <FlatList
           keyExtractor={item => item.id}
           renderItem={({item}) => (
@@ -53,13 +60,17 @@ class DayOverview extends Component<Props> {
 
 const mapState = (state: ApplicationState) => ({
   tasks: selectedTasks(state),
-  days: getDays(state)
+  days: getDays(state),
+  weekNumber: weekNumber(state),
+  weekDate: weekDate(state),
 });
 
 const mapActions = {
   selectDay,
   removeItem,
-  toggleItem
+  toggleItem,
+  moveWeekForward,
+  moveWeekBackward,
 };
 
 export default connect(

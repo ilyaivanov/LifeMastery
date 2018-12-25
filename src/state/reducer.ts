@@ -2,10 +2,12 @@ import {ApplicationState, DailyItem, TasksPerDay} from "./types";
 import {tasksForTomorrow, tasksPerDay, todaysTasks} from "./tasks";
 import {createTask} from "../utils";
 import {FORMAT} from "./selectors";
+import moment from "moment";
 
 const initialState: ApplicationState = {
   tasksPerDay: tasksPerDay,
-  selectedDay: "SET IN INITIALIZE ACTION"
+  selectedDay: "SET IN INITIALIZE ACTION",
+  firstDayOfTheDisplayedWeek: '',
 };
 
 const dailyTaskReducer = (tasks: DailyItem[], action: any) => {
@@ -57,13 +59,16 @@ export default (state: ApplicationState = initialState, action: any) => {
   }
 
   if (action.type === 'INITIALIZE') {
+    const monday = action.now.clone().startOf('isoWeek').format(FORMAT);
+
     return {
       ...state,
       tasksPerDay: {
         [action.now.format(FORMAT)]: todaysTasks,
         [action.now.clone().add(1, 'd').format(FORMAT)]: tasksForTomorrow
       },
-      selectedDay: action.now.format(FORMAT)
+      selectedDay: action.now.format(FORMAT),
+      firstDayOfTheDisplayedWeek: monday,
     }
   }
 
@@ -71,6 +76,18 @@ export default (state: ApplicationState = initialState, action: any) => {
     return {
       ...state,
       selectedDay: action.day
+    };
+  }
+  if (action.type === "MOVE_WEEK_FORWARD") {
+    return {
+      ...state,
+      firstDayOfTheDisplayedWeek: moment(state.firstDayOfTheDisplayedWeek, FORMAT).add(7, 'days').format(FORMAT)
+    };
+  }
+  if (action.type === "MOVE_WEEK_BACKWARD") {
+    return {
+      ...state,
+      firstDayOfTheDisplayedWeek: moment(state.firstDayOfTheDisplayedWeek, FORMAT).add(-7, 'days').format(FORMAT)
     };
   }
 
