@@ -7,15 +7,35 @@ interface Props {
   onDayChange: (day: Day) => void;
 }
 
+type Predicate<T> = (item: T) => boolean;
+
 export default class DaySlider extends React.Component<Props> {
   selectDay = (day: Day) => {
+    this.scrollToDay(day);
     this.props.onDayChange(day);
   };
 
+  // @ts-ignore
+  list: FlatList<Day>;
+
+  scrollToDay = (day: Day) =>
+    this.scrollTo(d => d.key === day.key);
+
+
+  scrollTo = (predicate: Predicate<Day>) =>
+    this.list.scrollToIndex({index: this.getCenteredIndex(predicate)});
+
+
+  getCenteredIndex = (predicate: Predicate<Day>) =>
+    Math.max(this.props.days.findIndex(predicate) - 2, 0);
+
+
   render() {
     return (
-      <View style={{height: 90}}>
+      <View>
         <FlatList
+          ref={(ref: any) => this.list = ref}
+          initialScrollIndex={this.getCenteredIndex(d => !!d.isSelected)}
           data={this.props.days}
           ItemSeparatorComponent={() => <View style={styles.separator}/>}
           renderItem={({item}) => (
@@ -43,7 +63,7 @@ const DayView = ({day, onPress}: DayProps) => (
     <Text style={[styles.title, day.isSelected && styles.selectedDay]}>
       {day.dayOfWeek}
     </Text>
-    <Text>
+    <Text style={styles.date}>
       {day.dayOfMonth} {day.month}
     </Text>
   </TouchableOpacity>
@@ -53,8 +73,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 23
   },
+  date: {
+    fontSize: 16,
+    color: 'gray'
+  },
   titleContainer: {
-    height: 90,
+    paddingTop: 5,
+    paddingBottom: 5,
     alignItems: "center",
     justifyContent: "center",
     width: Dimensions.get("window").width / 5
@@ -66,7 +91,7 @@ const styles = StyleSheet.create({
   separator: {
     width: StyleSheet.hairlineWidth,
     backgroundColor: "grey",
-    marginTop: 15,
-    marginBottom: 15
+    marginTop: 10,
+    marginBottom: 10,
   }
 });
