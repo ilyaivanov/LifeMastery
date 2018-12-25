@@ -1,49 +1,44 @@
 import React from "react";
-import {Dimensions, FlatList, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import {Day} from "../state/types";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Day } from "../state/types";
 
 interface Props {
   days: Day[];
   onDayChange: (day: Day) => void;
 }
 
-type Predicate<T> = (item: T) => boolean;
-
 export default class DaySlider extends React.Component<Props> {
   selectDay = (day: Day) => {
-    this.scrollToDay(day);
     this.props.onDayChange(day);
   };
-
-  // @ts-ignore
-  list: FlatList<Day>;
-
-  scrollToDay = (day: Day) =>
-    this.scrollTo(d => d.key === day.key);
-
-
-  scrollTo = (predicate: Predicate<Day>) =>
-    this.list.scrollToIndex({index: this.getCenteredIndex(predicate)});
-
-
-  getCenteredIndex = (predicate: Predicate<Day>) =>
-    Math.max(this.props.days.findIndex(predicate) - 2, 0);
-
 
   render() {
     return (
       <View>
-        <FlatList
-          ref={(ref: any) => this.list = ref}
-          initialScrollIndex={this.getCenteredIndex(d => !!d.isSelected)}
-          data={this.props.days}
-          ItemSeparatorComponent={() => <View style={styles.separator}/>}
-          renderItem={({item}) => (
-            <DayView day={item} onPress={this.selectDay}/>
-          )}
-          keyExtractor={item => item.key}
-          horizontal
-        />
+        <Text
+          style={{
+            paddingTop: 5,
+            fontWeight: "bold",
+            paddingBottom: 5,
+            textAlign: "center",
+            fontSize: 16
+          }}
+        >
+          2018 December - Week 55
+        </Text>
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity style={styles.buttonContainer} onPress={() => 42}>
+            <Text style={styles.button}>{"<"}</Text>
+          </TouchableOpacity>
+          <View style={{ flexDirection: "row", flex: 1 }}>
+            {this.props.days.map(d => (
+              <DayView key={d.key} day={d} onPress={this.selectDay} />
+            ))}
+          </View>
+          <TouchableOpacity style={styles.buttonContainer} onPress={() => 42}>
+            <Text style={styles.button}>{">"}</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -54,44 +49,51 @@ interface DayProps {
   onPress: (day: Day) => void;
 }
 
-const DayView = ({day, onPress}: DayProps) => (
+const DayView = ({ day, onPress }: DayProps) => (
   <TouchableOpacity
     testID={day.day}
     onPress={() => onPress(day)}
-    style={[styles.titleContainer]}
+    style={[styles.titleContainer, day.isSelected && styles.selectedDay]}
   >
-    <Text style={[styles.title, day.isSelected && styles.selectedDay]}>
-      {day.dayOfWeek}
-    </Text>
-    <Text style={styles.date}>
-      {day.dayOfMonth} {day.month}
-    </Text>
+    <Text style={styles.dayOfWeek}>{day.dayOfWeek}</Text>
+    <Text style={styles.date}>{day.dayOfMonth}</Text>
   </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
-  title: {
-    fontSize: 23
+  selectedDay: {
+    backgroundColor: "#e2e2e2",
+    borderRadius: 50
+  },
+  dayOfWeek: {
+    fontSize: 12,
+    textTransform: "uppercase",
+    color: "gray"
   },
   date: {
-    fontSize: 16,
-    color: 'gray'
+    fontSize: 22,
+    lineHeight: 24
   },
   titleContainer: {
-    paddingTop: 5,
-    paddingBottom: 5,
+    padding: 2,
+    flex: 1,
     alignItems: "center",
-    justifyContent: "center",
-    width: Dimensions.get("window").width / 5
-  },
-  selectedDay: {
-    fontWeight: "bold",
-    fontSize: 25
+    justifyContent: "center"
   },
   separator: {
     width: StyleSheet.hairlineWidth,
     backgroundColor: "grey",
     marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 10
+  },
+  buttonContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 20
+  },
+  button: {
+    fontSize: 23,
+    fontWeight: "bold",
+    lineHeight: 23
   }
 });

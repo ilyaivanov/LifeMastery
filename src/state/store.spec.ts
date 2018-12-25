@@ -1,6 +1,6 @@
-import { createMyStore } from "./store";
-import { addNewTask, removeItem, selectDay, toggleItem } from "./actions";
-import { selectedTasks, selectTasksForDay } from "./selectors";
+import {createMyStore} from "./store";
+import {addNewTask, removeItem, selectDay, toggleItem} from "./actions";
+import {selectedTasks, selectTasksForDay} from "./selectors";
 
 describe("On 23th of December", () => {
   beforeEach(() => {
@@ -61,7 +61,7 @@ describe("On 23th of December", () => {
     beforeEach(() => {
       store = createMyStore();
       store.dispatch(selectDay("24 Dec 2018"));
-      store.dispatch(addNewTask({ title: "Some Task", date: new Date() }));
+      store.dispatch(addNewTask({title: "Some Task", date: new Date()}));
     });
 
     it("should set the length of tasks on that day to two", () => {
@@ -72,7 +72,29 @@ describe("On 23th of December", () => {
     it("should have a generated id", () => {
       const task = selectTasksForDay(store.getState(), "24 Dec 2018").find(
         t => t.title === "Some Task"
-      ) || { id: undefined };
+      ) || {id: undefined};
+      expect(task.id).not.toBeFalsy();
+    });
+  });
+
+  describe('Adding new task for Friday (no tasks for Friday exist)', () => {
+    let store: ReturnType<typeof createMyStore>;
+
+    beforeEach(() => {
+      store = createMyStore();
+      store.dispatch(selectDay("28 Dec 2018"));
+      store.dispatch(addNewTask({title: "Some Task", date: new Date()}));
+    });
+
+    it("should set the length of tasks on that day to two", () => {
+      const tasksAtHand = selectedTasks(store.getState());
+      expect(tasksAtHand).toHaveLength(1);
+    });
+
+    it("should have a generated id", () => {
+      const task = selectTasksForDay(store.getState(), "28 Dec 2018").find(
+        t => t.title === "Some Task"
+      ) || {id: undefined};
       expect(task.id).not.toBeFalsy();
     });
   });

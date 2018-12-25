@@ -30,13 +30,20 @@ const dailyTaskReducer = (tasks: DailyItem[], action: any) => {
 
 const actions = ["REMOVE_TASK", "ADD_TASK", "TOGGLE_ITEM"];
 
+const addKeyForCurrentDayIfMissing = (state: ApplicationState, keys: string[]) => {
+  if (keys.indexOf(state.selectedDay) >= 0)
+    return keys;
+  else
+    return keys.concat([state.selectedDay]);
+};
+
 export default (state: ApplicationState = initialState, action: any) => {
   if (actions.indexOf(action.type) >= 0) {
-    const tasks = Object.keys(state.tasksPerDay).reduce(
+    const tasks = addKeyForCurrentDayIfMissing(state, Object.keys(state.tasksPerDay)).reduce(
       (agr: TasksPerDay, day) => {
         agr[day] =
           state.selectedDay == day
-            ? dailyTaskReducer(state.tasksPerDay[day], action)
+            ? dailyTaskReducer(state.tasksPerDay[day] || [], action)
             : state.tasksPerDay[day];
         return agr;
       },

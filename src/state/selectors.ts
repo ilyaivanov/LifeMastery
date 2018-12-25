@@ -1,5 +1,5 @@
-import { ApplicationState, Day, DailyItem } from "./types";
-import moment from "moment";
+import {ApplicationState, DailyItem, Day} from "./types";
+import moment, {Moment} from "moment";
 
 export const FORMAT = "DD MMM YYYY";
 
@@ -7,30 +7,38 @@ export const selectedTasks = (state: ApplicationState) => {
   return state.tasksPerDay[state.selectedDay];
 };
 
+const mapWeekday = (date: Moment) => {
+  if (date.weekday() === 0)
+    return 6;
+  else
+    return date.weekday() - 1;
+};
+
 export const getDays = (state: ApplicationState): Day[] => {
   const selectedDay = moment(state.selectedDay, "DD MMM YYYY");
 
-  const firstDayOfMonth = selectedDay
+  const firstDayOfWeek = selectedDay
     .clone()
-    .add(-selectedDay.date() + 1, "days");
+    .add(-mapWeekday(selectedDay), "days");
 
-  return Array.from(new Array(selectedDay.daysInMonth()))
+  const days = 7;
+
+  return Array.from(new Array(days))
     .map((ignored: {}, index: number) =>
-      firstDayOfMonth.clone().add(index, "days")
+      firstDayOfWeek.clone().add(index, "days")
     )
     .map(day => ({
       day: "",
       dayOfMonth: day.format("D"),
       month: day.format("MMM"),
-      dayOfWeek: weekDays[day.weekday()],
+      dayOfWeek: day.format('ddd'),
       key: day.format(FORMAT),
       isSelected: day.format(FORMAT) === state.selectedDay
     }));
 };
 
+
 export const selectTasksForDay = (
   state: ApplicationState,
   day: string
 ): DailyItem[] => state.tasksPerDay[day];
-
-const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
