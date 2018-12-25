@@ -17,6 +17,8 @@ interface Props {
   removeItem: Function;
   selectDay: Function;
   toggleItem: Function;
+  moveWeekForward: () => void;
+  moveWeekBackward: () => void;
 }
 
 class DayOverview extends Component<Props> {

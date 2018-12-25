@@ -5,8 +5,8 @@ import {Day} from "../state/types";
 interface Props {
   days: Day[];
   onDayChange: (day: Day) => void;
-  onMoveWeekRight: Function;
-  onMoveWeekLeft: Function;
+  onMoveWeekRight: () => void;
+  onMoveWeekLeft: () => void;
   title:string;
 }
 
