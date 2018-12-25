@@ -1,8 +1,8 @@
-import {Navigation} from "react-native-navigation";
+import { Navigation } from "react-native-navigation";
 import Index from "./Day";
 import CreateTask from "./createTask";
-import {DailyItem} from "./types";
-import {createMyStore, Provider} from "./state/store";
+import { createMyStore, Provider } from "./state/store";
+import { DailyItem } from "./state/types";
 
 export const showCreateTaskScreen = (): Promise<DailyItem> => {
   return new Promise<DailyItem>(resolve => {
@@ -32,8 +32,18 @@ export const goBack = (id: string) => {
 const store = createMyStore();
 
 export const registerScreens = () => {
-  Navigation.registerComponentWithRedux(screens.firstScreen, () => Index, Provider, store);
-  Navigation.registerComponentWithRedux(screens.createTask, () => CreateTask, Provider, store);
+  Navigation.registerComponentWithRedux(
+    screens.firstScreen,
+    () => Index,
+    Provider,
+    store
+  );
+  Navigation.registerComponentWithRedux(
+    screens.createTask,
+    () => CreateTask,
+    Provider,
+    store
+  );
 };
 
 export const screens = {

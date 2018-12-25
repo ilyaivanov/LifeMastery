@@ -21,7 +21,7 @@ export default class DaySlider extends React.Component<Props> {
           renderItem={({item}) => (
             <DayView day={item} onPress={this.selectDay}/>
           )}
-          keyExtractor={item => item.day}
+          keyExtractor={item => item.key}
           horizontal
         />
       </View>
@@ -41,7 +41,10 @@ const DayView = ({day, onPress}: DayProps) => (
     style={[styles.titleContainer]}
   >
     <Text style={[styles.title, day.isSelected && styles.selectedDay]}>
-      {day.day}
+      {day.dayOfWeek}
+    </Text>
+    <Text>
+      {day.dayOfMonth} {day.month}
     </Text>
   </TouchableOpacity>
 );

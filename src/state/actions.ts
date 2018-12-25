@@ -1,4 +1,6 @@
 import {DailyItem} from "./types";
+import moment from 'moment';
+
 
 export const removeItem = (id: string) => ({
   type: 'REMOVE_TASK',
@@ -19,4 +21,9 @@ export const toggleItem = (itemId: string, propertyName: keyof DailyItem) => ({
   type: 'TOGGLE_ITEM',
   propertyName,
   id: itemId
+});
+
+export const initialize = () => ({
+  type: 'INITIALIZE',
+  now: moment()
 });

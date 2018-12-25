@@ -1,7 +1,14 @@
-import { Moment } from "moment";
+import {Moment} from "moment";
 
 export interface Day {
+  key: string;
+  month: string;
+  dayOfMonth: string;
+  dayOfWeek: string;
+
+  //legacy, to be removed
   day: string;
+
   isSelected?: boolean;
 }
 
@@ -11,7 +18,7 @@ export interface TasksPerDay {
 
 export interface ApplicationState {
   tasksPerDay: TasksPerDay;
-  selectedDay:string;
+  selectedDay: string;
 }
 
 export interface DailyItem {

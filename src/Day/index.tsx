@@ -24,7 +24,7 @@ class DayOverview extends Component<Props> {
 
   onDone = (item: DailyItem) => this.props.toggleItem(item.id, "isDone");
 
-  onDayChange = (day: Day) => this.props.selectDay(day.day);
+  onDayChange = (day: Day) => this.props.selectDay(day.key);
 
   render() {
     return (

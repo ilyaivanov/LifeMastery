@@ -1,8 +1,8 @@
 import { testIds } from "./ids";
 import generateId from "./generateId";
 import { goBack, showCreateTaskScreen } from "../navigation";
-import { DailyItem } from "../types";
 import moment, { Moment } from "moment";
+import { DailyItem } from "../state/types";
 
 const fromTime = (time: string) => {
   const [hour, minut] = time.split(":");

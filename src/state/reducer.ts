@@ -1,10 +1,11 @@
 import {ApplicationState, DailyItem, TasksPerDay} from "./types";
-import {tasksPerDay} from "./tasks";
+import {tasksForTomorrow, tasksPerDay, todaysTasks} from "./tasks";
 import {createTask} from "../utils";
+import {FORMAT} from "./selectors";
 
 const initialState: ApplicationState = {
   tasksPerDay: tasksPerDay,
-  selectedDay: "Tue"
+  selectedDay: "SET IN INITIALIZE ACTION"
 };
 
 const dailyTaskReducer = (tasks: DailyItem[], action: any) => {
@@ -46,6 +47,17 @@ export default (state: ApplicationState = initialState, action: any) => {
       ...state,
       tasksPerDay: tasks
     };
+  }
+
+  if (action.type === 'INITIALIZE') {
+    return {
+      ...state,
+      tasksPerDay: {
+        [action.now.format(FORMAT)]: todaysTasks,
+        [action.now.clone().add(1, 'd').format(FORMAT)]: tasksForTomorrow
+      },
+      selectedDay: action.now.format(FORMAT)
+    }
   }
 
   if (action.type === "SELECT_DAY") {
