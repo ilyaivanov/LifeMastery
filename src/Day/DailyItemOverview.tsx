@@ -1,46 +1,32 @@
 import React from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
-import { DailyItem } from "../types";
+import { DailyItem } from "../state/types";
 
 interface Props {
   item: DailyItem;
   onRemove: (item: DailyItem) => void;
+  onDone: (item: DailyItem) => void;
 }
 
 export default class DailyItemOverview extends React.PureComponent<Props> {
   render() {
     const props = this.props;
     return (
-      <View
-        style={[
-          s.container,
-          props.item.isDone && s.doneContainer,
-          props.item.isFailed && s.failContainer
-        ]}
-      >
-        <Text
-          style={[
-            s.title,
-            props.item.isDone && s.done,
-            props.item.isFailed && s.fail
-          ]}
-        >
+      <View style={[s.container, props.item.isDone && s.doneContainer]}>
+        <Text style={[s.title, props.item.isDone && s.done]}>
           {props.item.title}
         </Text>
-        <Text style={s.time}>{props.item.dailyTime}</Text>
         <View style={s.buttonsContainer}>
-          <View style={{ flexDirection: "row", flex: 1 }}>
-            <Button title="Remove" color="red" onPress={() => this.props.onRemove(this.props.item)} />
+          <Text style={s.time}>{props.item.dailyTime}</Text>
+          <View style={s.buttonsGroup}>
             <Button
-              title={props.item.isFailed ? "Unfail" : "Fail"}
-              onPress={() => 42}
+              title="Remove"
+              color="red"
+              onPress={() => this.props.onRemove(this.props.item)}
             />
-            <Button title="Edit" onPress={() => 42} />
-          </View>
-          <View>
             <Button
               title={props.item.isDone ? "Undone" : "Done"}
-              onPress={() => 42}
+              onPress={() => this.props.onDone(this.props.item)}
             />
           </View>
         </View>
@@ -57,9 +43,6 @@ const s = StyleSheet.create({
   doneContainer: {
     backgroundColor: "#32e980"
   },
-  failContainer: {
-    backgroundColor: "#ffc5b7"
-  },
   title: {
     paddingBottom: 5,
     fontSize: 21,
@@ -69,15 +52,14 @@ const s = StyleSheet.create({
     fontSize: 18
   },
   buttonsContainer: {
-    marginLeft: -8,
-    marginRight: -8,
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  buttonsGroup: {
+    flexDirection: "row"
   },
   done: {
     textDecorationLine: "line-through"
-  },
-  fail: {
-    fontStyle: "italic"
   }
 });

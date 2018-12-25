@@ -1,4 +1,4 @@
-import {DailyItem} from "../types";
+import { Moment } from "moment";
 
 export interface Day {
   day: string;
@@ -12,4 +12,13 @@ export interface TasksPerDay {
 export interface ApplicationState {
   tasksPerDay: TasksPerDay;
   selectedDay:string;
+}
+
+export interface DailyItem {
+  time: Moment;
+  isDone: Boolean;
+  isFailed: Boolean;
+  dailyTime: string;
+  title: string;
+  id: string;
 }

@@ -1,5 +1,5 @@
 import {createMyStore} from "./store";
-import {addNewTask, removeItem, selectDay} from "./actions";
+import {addNewTask, removeItem, selectDay, toggleItem} from "./actions";
 import {selectedTasks} from "./selectors";
 
 it("by default you should have a couple of tasks on Monday", () => {
@@ -66,5 +66,24 @@ describe('Adding a new task for Monday', () => {
 
   it('should not change tasks for Tuesday', () => {
     expect(store.getState().tasksPerDay['Tue']).toHaveLength(3);
+  });
+});
+
+describe('Marking first item as done', () => {
+  it('should mark it as done', () => {
+    const store = createMyStore();
+
+    let firstItem = selectedTasks(store.getState())[0];
+    expect(firstItem.isDone).toEqual(false);
+
+    store.dispatch(toggleItem(firstItem.id, 'isDone'));
+
+    firstItem = selectedTasks(store.getState())[0];
+    expect(firstItem.isDone).toEqual(true);
+
+    store.dispatch(toggleItem(firstItem.id, 'isDone'));
+
+    firstItem = selectedTasks(store.getState())[0];
+    expect(firstItem.isDone).toEqual(false);
   });
 });
